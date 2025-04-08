@@ -5,7 +5,7 @@ import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 import static java.lang.Double.parseDouble;
 
-public class util {
+public class Util {
 private Produto[] produto= new Produto[5];
 private Fornecedor [] fornecedor= new Fornecedor[5];
 private int inxProduto=0;
@@ -14,7 +14,7 @@ private int inxProduto=0;
 
 public  void menu(){
     int opcao;
-    String msg = "1. Cadastrar produto\n2. Pesquisar produto\n3. Pesquisar fornecedor por cnpj \nFinalzar";
+    String msg = "1. Cadastrar produto\n2. Pesquisar produto\n3. Pesquisar fornecedor por cnpj \n4. Finalzar";
     do {
         opcao = parseInt(showInputDialog(msg));
         if(opcao < 1 || opcao > 3) {
@@ -29,7 +29,7 @@ public  void menu(){
                     pesquisarProd();
                     break;
                 case 3:
-                    pesquisarFornecedor();
+                    pesquisar();
                     break;
 
 
@@ -79,8 +79,19 @@ private Fornecedor cadastrarFornecedor(){
 
     //metodo para pesquisar produto
     private void pesquisarProd(){
-       String nomeProd;
+     DecimalFormat df = new DecimalFormat("0.00");
+    String aux = "Produto não encontrado";
+    String nome = showInputDialog("Nome do produto: ");
+    for (int i=0; i<inxProduto; i++){
+        if (produto[i].getNomeProd().equalsIgnoreCase(nome)){
+            aux = "";
+            aux += "Nome do produto: "+nome +"\n";
+            aux += "Valor unitário: R$ "+ df.format(produto[i].getValorUnitario())+"\n";
+            aux += "Fornecedor: "+ produto[i].getFornecedor().getNome() + "\n";
+        }//if
 
+    }//for
+       showMessageDialog(null, aux);
 
     }//pesquisar produto
 
@@ -91,13 +102,28 @@ int cnpj = parseInt(showInputDialog("CNPJ do fornecedor:"));
 for (int i=0; i<inxFonecedor;i++){
     if (fornecedor[i].getCnpj() == cnpj){
         return fornecedor[i];
-    }
+
+    }//if
 
 }//for
     showMessageDialog(null, cnpj+" não cadastrado");
     return null;
 
     }//pesquisar fornecedor
+
+
+    //metodo para pesquisar
+    private void pesquisar(){
+    Fornecedor fornecedor = pesquisarFornecedor();
+
+    if (fornecedor != null){
+     String aux = "";
+     aux += "Fornecedor: "+fornecedor.getNome() +"\n";
+     aux += "CNPJ: "+fornecedor.getCnpj() +"\n";
+    }//if
+
+    }//pesquisar
+
 
 
 
